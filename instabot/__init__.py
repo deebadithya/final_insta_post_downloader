@@ -7,14 +7,7 @@ import logging
 from instaloader import Post
 import azure.functions as func
 
-ig = instaloader.Instaloader(download_video_thumbnails=False,
-                                download_comments=False,
-                                save_metadata=False,
-                                compress_json=False,
-                                download_geotags=False,
-                                post_metadata_txt_pattern="")
 
-ig.login(user="insta_post_downloader", passwd="Helloworld@123")
 
 def downloader(message, POST_ID, link, file_extension, index=1):
     response = requests.get(link)
@@ -28,7 +21,7 @@ bot = telebot.TeleBot(TOKEN)
 
 @bot.message_handler(commands=["start"])
 def start(message):
-    bot.send_message(message.chat.id, "Welcome to InstaB0t"
+    bot.send_message(message.chat.id,"Welcome to InstaB0t"
                      "\nPaste Instagram post's link"
                      "\n and I will provide you the file!")
 
@@ -37,6 +30,14 @@ def message_handling(message):
     val = message.text
     POST_ID = val.strip().rsplit("/")[-2]
     pattern = re.compile(r'^[A-Za-z0-9]{11}$')
+    ig = instaloader.Instaloader(download_video_thumbnails=False,
+                                download_comments=False,
+                                save_metadata=False,
+                                compress_json=False,
+                                download_geotags=False,
+                                post_metadata_txt_pattern="")
+
+    ig.login(user="insta_post_downloader", passwd="Helloworld@123")
     try:
         if pattern.match(POST_ID):
             post = Post.from_shortcode(context=ig.context, shortcode=POST_ID)
