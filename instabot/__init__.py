@@ -5,7 +5,7 @@ import instaloader
 import requests
 import logging
 from instaloader import Post
-import azure.functions as func
+
 
 
 
@@ -15,8 +15,8 @@ def downloader(message, POST_ID, link, file_extension, index=1):
     return (f"post_{POST_ID}_{index}{file_extension}", byte_data)
     
 
-WEBHOOK = "https://azureinstaposttelebot.azurewebsites.net"
-TOKEN = "6464285421:AAFnmFFBNkZpsFvGOBUImklRNkQLzDxX-6U"
+WEBHOOK = ""
+TOKEN = ""
 bot = telebot.TeleBot(TOKEN)
 
 @bot.message_handler(commands=["start"])
@@ -70,9 +70,4 @@ def message_handling(message):
         logging.exception("An error occurred in the main function.")
 
 
-def main(req: func.HttpRequest) -> func.HttpResponse:
-    bot.set_webhook(url=WEBHOOK)
-    request_body_dict = req.get_json()
-    update = telebot.types.Update.de_json(request_body_dict)
-    bot.process_new_messages([update.message])
-    return func.HttpResponse(body='', status_code=200)
+bot.polling()
