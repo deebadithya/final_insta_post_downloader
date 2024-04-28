@@ -37,7 +37,7 @@ def message_handling(message):
                                 download_geotags=False,
                                 post_metadata_txt_pattern="")
 
-    ig.login(user="insta_post_downloader", passwd="Helloworld@123")
+    ig.login(user="username", passwd="yourPassword")
     try:
         if pattern.match(POST_ID):
             post = Post.from_shortcode(context=ig.context, shortcode=POST_ID)
